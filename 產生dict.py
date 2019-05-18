@@ -16,16 +16,14 @@ def main():
         # 印傳統調號的羅馬字音節表
         for im in sorted(tsuanpoo_lo):
                 # 一般
-            print('{}\t{}\t10%'.format(im, im), file=f)
+            print('{}\t{}\t1'.format(im, im), file=f)
         for han, lo in sorted(supio, key=lambda tup: (tup[1], tup[0])):
-            print('{}\t{}'.format(han, lo), file=f)
+            print('{}\t{}\t2'.format(han, lo), file=f)
 
 
 def 提教典表():
-    with open('wip.json') as 檔:
+    with open('wip2.json') as 檔:
         資料 = json.load(檔)
-#     with open('wip2.json','wt') as tong:
-#         json.dump(資料,tong,ensure_ascii=False,sort_keys=True,indent=2)
     tsuanpoo_lo = set()
     supio = set()
     for pit in 資料:
@@ -53,6 +51,8 @@ def theh(pit):
         ).replace('-', ' ')
     except KeyError:
         raise ValueError('無資料！')
+    if lo=='':
+        raise ValueError('無唸法！')
     if '，' in han or '－－' in han or '、' in han:
         raise ValueError('有標點先莫收')
 
