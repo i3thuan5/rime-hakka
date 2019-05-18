@@ -80,6 +80,27 @@ class 詞表試驗(TestCase):
         }
         self.kiatko = ('𫣆兜', 'en24 deu24')
 
+    def test_文白(self):
+        self.pit = {
+            "南四縣": "\n\n\n\ngiog2iang55",
+            "又音": "",
+            "反義詞": "",
+            "四縣音": "\n\n\n\ngiog2iang55白",
+            "多音字": "",
+            "大埔音": "\n\n\n\ngiog21rhang53",
+            "對應華語": "腳印",
+            "文白讀": "◆giog2in55四　文 giog5rhang11海　白",
+            "檔名": "detail_4178.html",
+            "海陸音": "\n\n\n\ngiog5rhin11文",
+            "詔安音": "\n\n\n\ngio24rhin31",
+            "詞性": "名",
+            "詞目": "【腳印】",
+            "近義詞": "【腳跡】",
+            "釋義": [],
+            "饒平音": "\n\n\n\ngiog2rhin53"
+        }
+        self.kiatko = ('腳印', 'giog2 iang55')
+
 
 class 其他無愛ê(TestCase):
     def tearDown(self):
@@ -119,4 +140,4 @@ class 其他無愛ê(TestCase):
                 }
             ],
             "饒平音": "\n\n\n\nshu24tai24ca53va11，zii53tai24bun11ga11"
-        },
+        }

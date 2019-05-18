@@ -49,10 +49,13 @@ def theh(pit):
             pit['詞目'].strip().lstrip('【').rstrip('】')
         )
         lo = (
-            文章粗胚.數字英文中央全加分字符號(pit['四縣音'].strip().split('）')[-1])
+            文章粗胚.數字英文中央全加分字符號(pit['四縣音'].strip().rstrip('文白').split('）')[-1])
         ).replace('-', ' ')
     except KeyError:
         raise ValueError('無資料！')
+    if '，' in han or '－－' in han or '、' in han:
+        raise ValueError('有標點先莫收')
+
     return han, lo
 
 
