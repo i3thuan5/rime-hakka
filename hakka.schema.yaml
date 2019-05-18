@@ -1,0 +1,157 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: hakka
+  name: 四縣
+  version: "0.1"
+  author:
+    - Sih Sîng-hông <ihcaoe@gmail.com>
+    - Tshuà Bûn-lī <a8568730@gmail.com>
+  description: |
+    Rime台語輸入模組，採用臺羅、POJ。
+  dependencies:
+    - cangjie5
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 西文 ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+  - name: zh_tw
+    reset: 1
+    # 啓用opencc字形轉換，但不在選單中顯示
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - fluency_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - table_translator@custom_phrase
+    - reverse_lookup_translator
+    - script_translator
+  filters:
+    - simplifier
+    - uniquifier
+
+menu:
+  alternative_select_keys: "ZXCV"
+
+speller:
+  alphabet: 'abcdefghijklmnopqrstuvwxyz12345'
+  initials: 'abcdefghijklmnopqrstuvwxyz'
+#  finals: "12345"
+  delimiter: " "
+  use_space: true
+  algebra:
+    - abbrev/^([^aiueo]*)[aiueo].+$/$1/
+    - abbrev/^([aiueo]).+$/$1/
+    - derive/^([A-Za-z]+)\d\d$/$1/
+#    - abbrev/^([abeghijklmnopstuABEGHIJKLMNOPSTU]).+(\d)$/$1$2/
+
+translator:
+  dictionary: hakka
+  preedit_format:
+#    - "xlit|634|ˊˇˋ|"
+
+custom_phrase:
+  dictionary: ""
+  user_dict: custom_phrase
+  db_class: stabledb
+  enable_completion: false
+  enable_sentence: false
+  initial_quality: 1
+
+simplifier:
+  opencc_config: zht2zhtw_v.ini
+  option_name: zh_tw
+
+punctuator:
+  full_shape:
+    " " : { commit: "　" }
+    "<" : { commit: "，" }
+    ">" : { commit: "。" }
+    "?" : [ ？, ／, ÷ ]
+    ":" : [ ：, ； ]
+    "'" : { pair: [ "‘", "’" ] }
+    "\"" : { pair: [ "“", "”" ] }
+    "\\" : [ 、, ＼ ]
+    "|" : [ ·, ｜, "§", "¦" ]
+    "`" : ｀
+    "~" : ～
+    "!" : { commit: ！ }
+    "@" : [ ＠, ☯ ]
+    "#" : [ ＃, ⌘ ]
+    "%" : [ ％, "°", "℃" ]
+    "$" : [ ￥, "$", "€", "£", "¥", "¢", "¤" ]
+    "^" : { commit: …… }
+    "&" : ＆
+    "*" : [ ＊, ·, ・, ×, ※, ❂ ]
+    "(" : （
+    ")" : ）
+    "_" : [ ——, － ]
+    "+" : ＋
+    "=" : ＝
+    "[" : [ 「, 【, 《, 〔, ［ ]
+    "]" : [ 」, 】, 》, 〕, ］ ]
+    "{" : [ 『, 〖, 〈, ｛ ]
+    "}" : [ 』, 〗, 〉, ｝ ]
+  half_shape:
+    "<" : { commit: "，" }
+    ">" : { commit: "。" }
+    "?" : [ ？, ／, "/", ÷ ]
+    ":" : [ ：, ； ]
+    "'" : { pair: [ "‘", "’" ] }
+    "\"" : { pair: [ "“", "”" ] }
+    "\\" : [ 、, "\\", ＼ ]
+    "|" : [ ·, "|", ｜, "§", "¦" ]
+    "`" : "`"
+    "~" : "~"
+    "!" : { commit: ！ }
+    "@" : "@"
+    "#" : "#"
+    "%" : [ "%", ％, "°", "℃" ]
+    "$" : [ ￥, "$", "€", "£", "¥", "¢", "¤" ]
+    "^" : { commit: …… }
+    "&" : "&"
+    "*" : [ "*", ＊, ·, ・, ×, ※, ❂ ]
+    "(" : （
+    ")" : ）
+    "_" : [ ——, －, "-" ]
+    "+" : "+"
+    "=" : "="
+    "[" : [ 「, 【, 《, 〔, ［ ]
+    "]" : [ 」, 】, 》, 〕, ］ ]
+    "{" : [ 『, 〖, 〈, ｛ ]
+    "}" : [ 』, 〗, 〉, ｝ ]
+
+key_binder:
+  import_preset: default
+  bindings:
+    - { when: has_menu, accept: comma, send: comma }      # ㄝ
+    - { when: has_menu, accept: period, send: period }    # ㄡ
+    - { when: has_menu, accept: minus, send: minus }      # ㄦ
+    - { when: paging, accept: minus, send: Page_Up }
+    - { when: has_menu, accept: equal, send: Page_Down }
+
+recognizer:
+  patterns:
+    email: "^[a-z][-_.0-9a-z]*@.*$"
+    url: "^(www[.]|https?:|ftp:|mailto:).*$"
+    reverse_lookup: "`[a-z]*'?$"

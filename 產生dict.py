@@ -63,7 +63,7 @@ dict_header = '''# Rime dictionary
 # encoding: utf-8
 
 ---
-name: hakka-xi-ien
+name: hakka
 version: "0.1"
 sort: by_weight
 use_preset_vocabulary: false
