@@ -1,4 +1,5 @@
 import json
+from 臺灣言語工具.解析整理.文章粗胚 import 文章粗胚
 
 
 def main():
@@ -39,7 +40,9 @@ def 提教典表():
 def theh(pit):
     try:
         han = pit['詞目'].strip().lstrip('【').rstrip('】')
-        lo = pit['四縣音'].strip().split('）')[-1]
+        lo = (
+            文章粗胚.數字英文中央全加分字符號(pit['四縣音'].strip().split('）')[-1])
+        ).replace('-', ' ')
     except KeyError:
         raise ValueError('無資料！')
     return han, lo
