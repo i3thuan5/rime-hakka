@@ -1,5 +1,7 @@
 import json
+import re
 from 臺灣言語工具.解析整理.文章粗胚 import 文章粗胚
+from 做字表 import 造字
 
 
 def main():
@@ -37,9 +39,15 @@ def 提教典表():
     return supio, tsuanpoo_lo
 
 
+造字標記 = re.compile(r'\{\[([A-Z0-9]{4})\]\}')
+
+
 def theh(pit):
     try:
-        han = pit['詞目'].strip().lstrip('【').rstrip('】')
+        han = 造字標記.sub(
+            lambda m: 造字[m.group(1)],
+            pit['詞目'].strip().lstrip('【').rstrip('】')
+        )
         lo = (
             文章粗胚.數字英文中央全加分字符號(pit['四縣音'].strip().split('）')[-1])
         ).replace('-', ' ')
